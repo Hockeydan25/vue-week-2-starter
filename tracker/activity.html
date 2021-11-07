@@ -11,10 +11,11 @@
 </head>
 
 <body>
-    <div id="app"><!-- working with the scripting Vue app -->
+    <!-- working with the scripting Vue app -->
+    <div id="app"> 
 
-        <!-- TODO display the name of the activity -->
-        <h1 class="text-center">Time Tracker</h1>
+        <!-- displaying Daily Paractice the name of my activity tracker-->
+        <h1 class="text-center"> {{Daily Practice}}Time Tracker</h1> 
 
         <div id="add-hours" class="card">
 
@@ -115,16 +116,24 @@
     <script>
     //   created a new Vue app here
     let app = Vue.createApp({
-        dat() {
-            return{
-                activity: 'Daily Practice'
+        data() {
+            return {
+                //name of the activity being tracked
+                activity: 'Daily Practice',
+                //an array of all the activity records will get added to the activityArray 
+                activityRecords: [],
+                //v-modeled to the form inputs
+                date: '',
+                hours:1 ,
+                type: 'Sketching',
+                medium: 'traditional'
             }
         }
-
-
+        
     })   
-    
+
     app.mount('#app')
+  
     </script> <!--scrit ends here-->
 
 </body>
