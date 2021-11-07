@@ -3,15 +3,15 @@
 
 <head>
     <title>Practice Tracker</title>
-    <script src="https://unpkg.com/vue@next"></script>
-    
+    <script src="https://unpkg.com/vue@next"></script> <!-- vue 3 package load-->
+    <!-- links here for css style sheet local for bootstrap style css helps nice clean looks preset -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
         crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css" type="text/css">
 </head>
 
 <body>
-    <div id="app">
+    <div id="app"><!-- working with the scripting Vue app -->
 
         <!-- TODO display the name of the activity -->
         <h1 class="text-center">Time Tracker</h1>
@@ -113,11 +113,20 @@
     </div>
 
     <script>
+    //   created a new Vue app here
+    let app = Vue.createApp({
+        dat() {
+            return{
+                activity: 'Daily Practice'
+            }
+        }
 
-    //   TODO create new Vue app here
 
-    </script>
+    })   
+    
+    app.mount('#app')
+    </script> <!--scrit ends here-->
 
 </body>
-
+    <!-- end of body and html document element page here -->
 </html>
