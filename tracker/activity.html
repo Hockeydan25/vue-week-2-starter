@@ -90,7 +90,7 @@
 
             <div class="card-body">
 
-                <h3> <!-- TODO Display number of records --> records</h3>
+                <h3>{{totalRecordsMessage}} <!-- Display number of records --></h3>
 
                 <div id="records">
                     <table class="table table-hover">
@@ -118,8 +118,8 @@
 
             <div class="card-body">
 
-                <!-- TODO add computed property to calculate the total hours -->
-                <p>You have practiced a total of <!-- TODO display total hours --> hours</p>
+                <!-- add computed property to calculate the total hours -->
+                <p>You have practiced a total of {{totalHours}} hours</p>
 
                 <!-- Challenge question! Display a list of the total hours for each type.  -->
           
@@ -177,13 +177,38 @@
                     }                
 
                     this.activityRecords.push(record)
+                    //sort activity records.
+                    this.activityRecords.sort(function(r1,r2) { 
+                        //sort with oldest record first,most recent at the end. date are today and past.
+                        return r1.date.getTime() - r2.date.getTime()//unix time stamps numbers are doing math.
+                    })
+
                 }        
-                //console.log(this.activityRecords)
+            
             },
             ShortDate(date){
                 return new Intl.DateTimeFormat('en-US', {timeZone: 'UTC' }).format(date)
             }
 
+        },
+        computed: {
+            totalRecordsMessage(){
+                
+                let numberOfRecords = this.activityRecords.length
+
+                if (numberOfRecords === 1){
+                    return '1 record'
+                } else {
+                   return numberOfRecords + ' records'
+                }   
+            },
+            totalHours(){  
+                let total = 0
+                this.activityRecords.forEach(function (record) {
+                    total = total + record.hours
+                })
+                return total
+            }
         }
         
     })   
