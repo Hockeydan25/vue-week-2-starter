@@ -23,9 +23,13 @@
             <h2 class="card-header">Add Records</h2>
             <div class="card-body">
                
-                <!-- TODO use v-if to show this if there are validation errors -->
-                <div class="alert alert-danger">
-                    <!-- TODO show a list of validation errors from form -->
+                <!--  use v-if to show this if there are validation errors -->
+                <div class="alert alert-danger" v-if="errors.length > 0">
+                    <!-- show a list of validation errors from form -->
+                    <ul>
+                        <li v-for="error in errors">{{ error}}</li>
+                    </ul>
+
                 </div>
 
                 <div class="form-group">
@@ -41,7 +45,7 @@
                 <div class="form-group">
                     <label class="form-label" for="hours">How many hours did you practice for?</label>
                     <!--use v-model to connect this input to hours data -->
-                    <input id="hours" class="form-control" type="number" min="0" max="24" v-model="hours">
+                    <input id="hours" class="form-control" type="number" min="0" max="24" v-model.number="hours">
                     <small id="hours-help" class="form-text text-muted">
                         Enter a number of hours, more than 0, up to a maximum of 24
                     </small>
@@ -62,20 +66,20 @@
                 </div>
 
                 <div class="form-check-inline">
-                    <!-- v-model media -->
+                    <!-- v-model media setup both as v-model medium -->
                     <input id="media1" class="form-check-input" type="radio" value="Traditional" v-model="medium">
                     <label class="form-check-label" for="media1">Traditional <!--Display text -->  </label>
                 </div>
 
                 <div class="form-check-inline">
-                    <!-- TODO v-model media -->
+                    <!-- v-model media -->
                     <input id="media2" class="form-check-input" type="radio" value="Digital" v-model="medium">
                     <label class="form-check-label" for="media2">Digital  <!--Display text -->  </label>
                 </div>
 
                 <div>
-                    <!-- TODO Add v-on:click -->
-                    <button class="btn btn-primary mt-2" type="button">Add record</button>
+                    <!-- Added v-on:click submitt, method added for this -->
+                    <button class="btn btn-primary mt-2" type="button" v-on:click="submitt">Add record</button>
                 </div>
                 
             </div>
@@ -96,7 +100,13 @@
                             <th>Type</th>
                             <th>Media</th>
                         </tr>
-                        <!-- TODO use v-for to create one table row for each activity record -->
+                        <!-- use v-for to create one table row for each activity record -->
+                        <tr v-for="record in activityRecords">
+                            <td>{{ShortDate     (record.date)}}</td>
+                            <td>{{record.hours}}</td>
+                            <td>{{record.type}}</td>
+                            <td>{{record.medium}}</td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -133,8 +143,47 @@
                 type: 'Meditation',
                 medium: 'Traditional',
                 //array for types of activity to select drop down.    
-                types: ['Meditation', 'Exercise', 'Homework']    
+                types: ['Meditation', 'Exercise', 'Homework'],
+                
+                errors: []
             }
+        },
+        methods:{
+            submitt(){ //method declarions
+
+                this.errors = []
+
+                let date = new Date(this.dateString)
+                //is date validate today or past
+                if(!this.dateString || this.dateString === 'Invalid Date' || date > new Date() ) {
+                    this.errors.push('Please select a valid date, today or one in the past.')
+                }
+                
+                if(this.hours <= 0 || this.hours > 24) {
+                    this.errors.push('Please choose number of hours greater than 0, less than or equal to 24.')
+                }
+                if(!this.type) {
+                    this.errors.push('Please select a type')
+                }
+                if(!this.medium) {
+                    this.errors.push('Please select a medium')
+                }
+                if (this.errors.length === 0) {                    
+                    let record = {
+                        date: date,
+                        hours: this.hours,
+                        type: this.type,
+                        medium: this.medium
+                    }                
+
+                    this.activityRecords.push(record)
+                }        
+                //console.log(this.activityRecords)
+            },
+            ShortDate(date){
+                return new Intl.DateTimeFormat('en-US', {timeZone: 'UTC' }).format(date)
+            }
+
         }
         
     })   
