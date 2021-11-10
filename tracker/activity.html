@@ -13,7 +13,7 @@
 
 <body>
     <!-- working with the scripting Vue app -->
-    <div id="app"> 
+    <div id="app" v-cloak> 
 
         <!-- displaying Daily Paractice the name of my activity tracker-->
         <h1 class="text-center"> Daily Practice Time Tracker</h1> 
@@ -76,6 +76,19 @@
                     <input id="media2" class="form-check-input" type="radio" value="Digital" v-model="medium">
                     <label class="form-check-label" for="media2">Digital  <!--Display text -->  </label>
                 </div>
+                
+                <br> <!--creating check box -->
+                <div class="form-check-inline">                    
+                    <input id="media3" class="form-check-inline" type="checkbox" value="Completed" v-model="completed">
+                    <label class="form-check-label" for="media3">Completed?</label>
+                </div>
+                <br>
+                <div><!--added inpt for notes-->
+                    <label for="text-notes">Notes:</label>
+                    <input id="text-notes" type="text" v-model="notes">
+
+                </div>
+
 
                 <div>
                     <!-- Added v-on:click submitt, method added for this -->
@@ -99,13 +112,18 @@
                             <th>How many hours?</th>
                             <th>Type</th>
                             <th>Media</th>
+                            <th>Completed?</th>
+                            <th>Notes:</th>
                         </tr>
                         <!-- use v-for to create one table row for each activity record -->
-                        <tr v-for="record in activityRecords">
-                            <td>{{ShortDate     (record.date)}}</td>
+                        <tr v-for="record in activityRecords"    >
+                            <td>{{ShortDate(record.date)}}</td>
                             <td>{{record.hours}}</td>
-                            <td>{{record.type}}</td>
+                            <td v-bind:class="record.type">{{record.type}}</td>
                             <td>{{record.medium}}</td>
+                            <td>{{workCompleteOrNot(record.completed)}}</td>
+                            <td>{{record.notes}}</td>
+
                         </tr>
                     </table>
                 </div>
@@ -119,7 +137,7 @@
             <div class="card-body">
 
                 <!-- add computed property to calculate the total hours -->
-                <p>You have practiced a total of {{totalHours}} hours</p>
+                <p>You have practiced meditation: {{ typeHours}} hours, and total hours is: {{totalHours}} hours</p>
 
                 <!-- Challenge question! Display a list of the total hours for each type.  -->
           
@@ -144,8 +162,11 @@
                 medium: 'Traditional',
                 //array for types of activity to select drop down.    
                 types: ['Meditation', 'Exercise', 'Homework'],
+                completed: false,
+                notes: '',
                 
                 errors: []
+                //workCompleteOrNot: {}
             }
         },
         methods:{
@@ -167,13 +188,16 @@
                 }
                 if(!this.medium) {
                     this.errors.push('Please select a medium')
-                }
+                }               
+                
                 if (this.errors.length === 0) {                    
                     let record = {
                         date: date,
                         hours: this.hours,
                         type: this.type,
-                        medium: this.medium
+                        medium: this.medium,
+                        completed: this.completed,
+                        notes: this.notes
                     }                
 
                     this.activityRecords.push(record)
@@ -188,6 +212,14 @@
             },
             ShortDate(date){
                 return new Intl.DateTimeFormat('en-US', {timeZone: 'UTC' }).format(date)
+            },
+            workCompleteOrNot(completed){
+                if(completed == true){
+                    return 'Complete'
+                }else{
+                    return 'Not Complete'
+                }
+
             }
 
         },
@@ -201,14 +233,36 @@
                 } else {
                    return numberOfRecords + ' records'
                 }   
-            },
+            },                      
             totalHours(){  
                 let total = 0
+                
                 this.activityRecords.forEach(function (record) {
-                    total = total + record.hours
+                    total = total + record.hours                  
                 })
                 return total
+            },
+            typeHours(){
+                //let activityHours: ['meditationHours','exerciseHour','homeworkHours' ]
+                
+                let activityHours = 0
+                //let exerciseHours = 0
+                //let homeworkHours = 0
+                this.activityRecords.forEach(function (record) {
+        
+                    if (this.type === 'Meditation'){
+                        activityHours = activityHours + record.hours
+                    }//if(this.type === 'Exercise'){
+                    //     return record.hours + exerciseHours
+                    // }else (this.type === 'Homework'){
+                    //     return record.hours + homeworkHours   
+                    // }
+                })   
+                return activityHours
             }
+            
+            
+            
         }
         
     })   

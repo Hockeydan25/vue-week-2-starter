@@ -2,3 +2,37 @@
     max-height: 250px;
     overflow: scroll; 
 }
+
+.pb-2 {
+    background-color: whitesmoke;
+
+}
+#text-notes{
+    display: block;
+}
+[v-cloak]{
+    display: none;
+}
+.form-group{
+    background-color: whitesmoke;
+}
+.table-hover{
+    background-color: wheat;
+}
+/* .color{
+    background-color: thistle;
+} */
+.Meditation{
+
+    background-color: thistle;
+}
+.Exercise {
+    background-color: lightseagreen;
+
+}
+
+.Homework{
+
+    background-color: limegreen;
+
+}
