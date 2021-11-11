@@ -2,35 +2,36 @@
 <html>
 
 <head>
-    <title>Practice Tracker</title>
+    <title>Practice Time Tracker</title> <!--HTML tab for web browser-->
     <!-- vue 3 package load-->
     <script src="https://unpkg.com/vue@next"></script> 
     <!-- links here for css style sheet local for bootstrap style css helps nice clean looks preset -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
         crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css" type="text/css">
+    <link rel="stylesheet" href="styles.css" type="text/css"><!--local style sheet-->
 </head>
 
-<body>
+<body><!--Start main html body container for our web page.-->
     <!-- working with the scripting Vue app -->
-    <div id="app" v-cloak> 
-
+    <div id="app" v-cloak> <!--Start main div for the app-->
+         <!-- DIV elements is the generic container for flow content. 
+        It has no effect on the content or layout until styled in some way using CSS -->
         <!-- displaying Daily Paractice the name of my activity tracker-->
         <h1 class="text-center"> Daily Practice Time Tracker</h1> 
-
+        <!-- start main div for page -->
         <div id="add-hours" class="card">
 
             <h2 class="card-header">Add Records</h2>
             <div class="card-body">
                
                 <!--  use v-if to show this if there are validation errors -->
-                <div class="alert alert-danger" v-if="errors.length > 0">
+                <div class="alert alert-danger" v-if="errors.length > 0"> <!--Start div -->
                     <!-- show a list of validation errors from form -->
                     <ul>
                         <li v-for="error in errors">{{ error}}</li>
                     </ul>
 
-                </div>
+                </div> <!-- end div alert danger -->
 
                 <div class="form-group">
                     <!-- display name of activity in the label -->
@@ -40,71 +41,73 @@
                     <small id="date-help" class="form-text text-muted">
                         Date must be today or in the past.
                     </small>
-                </div>
+                </div> <!-- end div activity choices. -->
 
-                <div class="form-group">
+                <div class="form-group"> <!--Start div hourss slection.-->
                     <label class="form-label" for="hours">How many hours did you practice for?</label>
                     <!--use v-model to connect this input to hours data -->
                     <input id="hours" class="form-control" type="number" min="0" max="24" v-model.number="hours">
                     <small id="hours-help" class="form-text text-muted">
                         Enter a number of hours, more than 0, up to a maximum of 24
                     </small>
-                </div>
+                </div> <!-- end div -->
 
-                <div class="form-group">
+                <div class="form-group"> <!--Start div select type. -->
                     <label class="form-label" for="type">What type?</label>
-                    <!--  Create select element, use v-model to connect to the types.
-                         links to our array list-->                    
+                    <!-- Create select element, use v-model to connect to the types.
+                    links to our array list-->                    
                     <!-- Use v-for to create option elements, one for each type displays those options-->
                     <select class="form-control" v-model="type">
                         <option v-for="activityType in types">{{activityType}}</option> 
                     </select>
-                </div>
+                </div> <!-- end div -->
 
-                <div class="form-label pb-2">
+                <div class="form-label pb-2"> <!--Start div -->
                     What media?
-                </div>
+                </div> <!-- end div -->
 
-                <div class="form-check-inline">
+                <div class="form-check-inline"> <!--Start div -->
                     <!-- v-model media setup both as v-model medium -->
                     <input id="media1" class="form-check-input" type="radio" value="Traditional" v-model="medium">
                     <label class="form-check-label" for="media1">Traditional <!--Display text -->  </label>
-                </div>
+                </div> <!-- end div -->
 
-                <div class="form-check-inline">
+                <div class="form-check-inline"> <!--Start div -->
                     <!-- v-model media -->
                     <input id="media2" class="form-check-input" type="radio" value="Digital" v-model="medium">
                     <label class="form-check-label" for="media2">Digital  <!--Display text -->  </label>
-                </div>
+                </div> <!-- end div -->
                 
                 <br> <!--creating check box -->
-                <div class="form-check-inline">                    
+                <div class="form-check-inline"><!--Start div -->                    
                     <input id="media3" class="form-check-inline" type="checkbox" value="Completed" v-model="completed">
                     <label class="form-check-label" for="media3">Completed?</label>
-                </div>
+                </div> <!-- end div -->
                 <br>
-                <div><!--added inpt for notes-->
-                    <label for="text-notes">Notes:</label>
+                <div><!--Start Div. added input for notes. -->
+                    <label for="text-notes">Notes:</label><!--Label element represents a caption for an item in a user interface.-->
                     <input id="text-notes" type="text" v-model="notes">
 
-                </div>
+                </div><!-- end div -->
 
+                <!-- DIV elements is the generic container for flow content. It has no effect on the 
+                content or layout until styled in some way using CSS -->
 
-                <div>
+                <div><!--Start div -->
                     <!-- Added v-on:click submitt, method added for this -->
                     <button class="btn btn-primary mt-2" type="button" v-on:click="submitt">Add record</button>
-                </div>
+                </div><!--END div -->
                 
-            </div>
-        </div>
+            </div><!--END div card add hours -->
+        </div><!--End div add hours -->
 
-        <div class="card">
-            <h2 class="card-header">Activity Records</h2>
+        <div class="card"><!--Start div for the Card records section -->
+            <h2 class="card-header">Activity Records</h2> <!--message diplayed-->
 
-            <div class="card-body">
+            <div class="card-body"><!-- Start div for the Card records section -->
 
-                <h3>{{totalRecordsMessage}} <!-- Display number of records --></h3>
-
+                <h3>{{totalRecordsMessage}} <!-- Display number of records Vue link to  --></h3>
+                <!-- div start for the records display -->
                 <div id="records">
                     <table class="table table-hover">
                         <tr>
@@ -115,39 +118,43 @@
                             <th>Completed?</th>
                             <th>Notes:</th>
                         </tr>
+                        <!-- use color change on the whole row instead of just the type. -->
                         <!-- use v-for to create one table row for each activity record -->
-                        <tr v-for="record in activityRecords"    >
+                        <tr v-for="record in activityRecords" v-bind:class="record.type"   >
                             <td>{{ShortDate(record.date)}}</td>
                             <td>{{record.hours}}</td>
-                            <td v-bind:class="record.type">{{record.type}}</td>
+                            <td>{{record.type}}</td>
                             <td>{{record.medium}}</td>
                             <td>{{workCompleteOrNot(record.completed)}}</td>
                             <td>{{record.notes}}</td>
-
                         </tr>
                     </table>
-                </div>
-            </div>
-        </div>
+                </div><!-- END div for the records display contains the table -->
+            </div><!-- END div for Card body section -->
+        </div><!-- END div for the Card records section -->
 
-
+        <!-- Start new div set class section use for formating -->
         <div class="card">
             <h2 class="card-header">Summary</h2>
 
-            <div class="card-body">
+            <div class="card-body"> <!--Start new div formatting can be reused here section -->
 
                 <!-- add computed property to calculate the total hours -->
-                <p>You have practiced meditation: {{ typeHours}} hours, and total hours is: {{totalHours}} hours</p>
+                <p>You have practiced:
+                    Meditation: {{ typeHours[0]}} hour(s);
+                    Exercise: {{ typeHours[1]}} hour(s);
+                    Homework: {{ typeHours[2]}} hour(s), 
+                    and your Activies total is: {{totalHours}} hours. Great Job!</p>
 
                 <!-- Challenge question! Display a list of the total hours for each type.  -->
           
-            </div>
-        </div>
+            </div> <!--END div for framing message section,-->
+        </div> <!--END main div for card class and calculated section message.-->
 
-    </div>
-
+    </div> <!--END main div for the app.-->
+    <!--script starts here  -->
     <script>
-    //   created a new Vue app here
+    //   created a new Vue app here.
     let app = Vue.createApp({
         data() {
             return {
@@ -171,25 +178,25 @@
         },
         methods:{
             submitt(){ //method declarions
-
+                //arrary to hold our error vailidations.
                 this.errors = []
 
                 let date = new Date(this.dateString)
-                //is date validate today or past
+                //is date validate today or past checking valid.
                 if(!this.dateString || this.dateString === 'Invalid Date' || date > new Date() ) {
                     this.errors.push('Please select a valid date, today or one in the past.')
                 }
-                
+                //checking hours are valid. 
                 if(this.hours <= 0 || this.hours > 24) {
                     this.errors.push('Please choose number of hours greater than 0, less than or equal to 24.')
-                }
+                }//checking that a type is selected.
                 if(!this.type) {
                     this.errors.push('Please select a type')
-                }
+                }//checking that a medium of art is selected.
                 if(!this.medium) {
                     this.errors.push('Please select a medium')
-                }               
-                
+                }  //we don't need to validate the checkbox it can be unchecked.             
+                //if errors is zero then our program proceedes to run. other wise alert messaging.
                 if (this.errors.length === 0) {                    
                     let record = {
                         date: date,
@@ -209,10 +216,10 @@
 
                 }        
             
-            },
+            },//this tiddy's the date into a short date message.
             ShortDate(date){
                 return new Intl.DateTimeFormat('en-US', {timeZone: 'UTC' }).format(date)
-            },
+            },//working to display note if box checked we display return words.
             workCompleteOrNot(completed){
                 if(completed == true){
                     return 'Complete'
@@ -224,7 +231,7 @@
 
         },
         computed: {
-            totalRecordsMessage(){
+            totalRecordsMessage(){//method calcualtes- making sense of grammar on displayed, removes s add s to word records.
                 
                 let numberOfRecords = this.activityRecords.length
 
@@ -234,40 +241,37 @@
                    return numberOfRecords + ' records'
                 }   
             },                      
-            totalHours(){  
+            totalHours(){  //method to produce total hours in actvity records.
                 let total = 0
                 
                 this.activityRecords.forEach(function (record) {
                     total = total + record.hours                  
                 })
                 return total
-            },
+            },//new calculated method to return hours for each type activity.
             typeHours(){
-                //let activityHours: ['meditationHours','exerciseHour','homeworkHours' ]
-                
-                let activityHours = 0
-                //let exerciseHours = 0
-                //let homeworkHours = 0
-                this.activityRecords.forEach(function (record) {
+               let activityType = ['meditationHours ','exerciseHours','homeworkHours']
+                //variables values set starting at 0
+                let meditationHours = 0
+                let exerciseHours = 0
+                let homeworkHours = 0
+                this.activityRecords.forEach(function (record) {                    
+                    //forEach loop will go through each type we need to calculate.
+                    if (record.type === 'Meditation'){
+                        meditationHours = meditationHours + record.hours 
+                    }if(record.type === 'Exercise'){
+                         exerciseHours = exerciseHours + record.hours 
+                    }if (record.type === 'Homework')
+                        homeworkHours = homeworkHours + record.hours
+                    
+                })   //retuning each calculated string property
+                return [meditationHours, exerciseHours,homeworkHours]       
+            }            
+        }//methods end and computed end tag
         
-                    if (this.type === 'Meditation'){
-                        activityHours = activityHours + record.hours
-                    }//if(this.type === 'Exercise'){
-                    //     return record.hours + exerciseHours
-                    // }else (this.type === 'Homework'){
-                    //     return record.hours + homeworkHours   
-                    // }
-                })   
-                return activityHours
-            }
-            
-            
-            
-        }
-        
-    })   
+    })   //creation Vue app object end tag
 
-    app.mount('#app')
+    app.mount('#app')// here links the app to our scripting. why does it sit at the end? 
   
     </script> <!--scrit ends here-->
 
